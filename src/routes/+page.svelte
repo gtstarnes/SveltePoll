@@ -13,6 +13,11 @@
 <main>
     <h1>Svelte Poll</h1>
     <Tabs {tabs} {activeTab} on:changeTab={changeTab}/>
+    {#if activeTab === "Polls"}
+        <p>Polls</p>
+    {:else}
+        <p>Add New Poll form</p>
+    {/if}
 </main>
 
 <style>
