@@ -7,8 +7,5 @@
 </footer>
 
 <style>
-    footer {
-        position: absolute;
-        left: 43%;
-    }
+
 </style>
