@@ -8,9 +8,13 @@
 
 <style>
     div {
-        border: 4px solid white;
         padding: 5px;
-        filter: drop-shadow(10px, 10px 2px gold);
-        border-radius: 2px;
+        background-color: white;
+        
+        border-radius: 4px;
+    }
+    div:hover {
+        filter: drop-shadow(4px 6px 12px grey);
+        transition: ease-in-out;
     }
 </style>
