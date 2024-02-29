@@ -61,6 +61,9 @@
 
 <style>
     main {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
         text-align: center;
         font-family: 'Trebuchet MS', 'Lucida Sans Unicode',
          'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
