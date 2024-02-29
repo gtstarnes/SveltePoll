@@ -4,8 +4,8 @@
     
     export let poll: PollType;
     $: totalVotes = poll.voteA + poll.voteB;
-    $: percentA = ((poll.voteA / totalVotes) * 100).toFixed(1);
-    $: percentB = ((poll.voteB / totalVotes) * 100).toFixed(1);
+    $: percentA = Math.floor(poll.voteA / totalVotes * 100);
+    $: percentB = Math.floor(poll.voteB / totalVotes * 100);
 
   
     const dispatch = createEventDispatcher();
@@ -18,8 +18,8 @@
 <div class="poll">
     <h2>{poll.question}</h2>
     <div class="buttons">
-        <button on:click={()=>handleVote('a', poll.id)}>{poll.optionA} {#if totalVotes === 0}0%{:else}({percentA})%{/if}</button>
-        <button on:click={()=>handleVote('b', poll.id)}>{poll.optionB} {#if totalVotes === 0}0%{:else}({percentB})%{/if}</button>
+        <button class="percent-A" style="width: {percentA}%" on:click={()=>handleVote('a', poll.id)}>{poll.optionA}</button>
+        <button class="percent-B" style="width: {percentB}%" on:click={()=>handleVote('b', poll.id)}>{poll.optionB}</button>
     </div>
     <div class="totals">
         <p>Votes for A: {poll.voteA}</p>
@@ -37,11 +37,22 @@
         font: inherit;
         outline: inherit;
         cursor: pointer;
+        height: 50px;
     }
     .buttons {
         margin-bottom: 20px;
         display: flex;
+        flex-direction: column;
+        width: 50%;
         gap: 40px
+    }
+    .percent-A {
+        border-left: 4px solid red;
+        background-color: rgba(217,27,66,0.2);
+    }
+    .percent-B {
+        border-left: 4px solid green;
+        background-color: rgba(69, 196, 150,0.2);
     }
     .poll {
         display: flex;
