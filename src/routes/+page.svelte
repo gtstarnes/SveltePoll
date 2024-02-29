@@ -51,7 +51,7 @@
             <PollsList {polls} on:vote={handleVote} />
         {/if}
     {:else}
-        <h4>Add a new Poll</h4>
+        <h4>Add New Poll</h4>
         <AddPollForm on:addPoll={addPoll} />
     {/if}
 </main>
@@ -59,5 +59,7 @@
 <style>
     main {
         text-align: center;
+        font-family: 'Trebuchet MS', 'Lucida Sans Unicode',
+         'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
     }
 </style>
