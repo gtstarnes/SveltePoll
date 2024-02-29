@@ -6,7 +6,7 @@
     export let polls: PollType[] = []
 </script>
 
-<div>
+<div class="pollList">
     {#each polls as poll (poll.id)}
         <Card>
             <PollDetails {poll} on:vote />
@@ -15,5 +15,9 @@
 </div>
 
 <style>
-
+    .pollList {
+        display: flex;
+        flex-direction: column;
+        gap: 40px;
+    }
 </style>
