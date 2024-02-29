@@ -3,6 +3,8 @@
     import AddPollForm from '../Components/AddPollForm.svelte';
     import type {PollType, VoteType} from '../types/types';
 	import PollsList from '../Components/polls/pollsList.svelte';
+	import Header from '../Components/header.svelte';
+	import Footer from '../Components/footer.svelte';
 
     const tabs = ["Polls", "Add New Poll"]
     let activeTab: string;
@@ -42,7 +44,7 @@
 
 
 <main>
-    <h1>Svelte Poll</h1>
+    <Header />
     <Tabs {tabs} {activeTab} on:changeTab={changeTab}/>
     {#if activeTab === "Polls"}
         {#if polls.length === 0}
@@ -54,6 +56,7 @@
         <h4>Add New Poll</h4>
         <AddPollForm on:addPoll={addPoll} />
     {/if}
+    <Footer />
 </main>
 
 <style>
