@@ -6,3 +6,8 @@ export type PollType = {
     voteA: number,
     voteB: number
 }
+
+export type VoteType = {
+    option: string,
+    id: number
+}
