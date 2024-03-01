@@ -7,9 +7,9 @@
     let pollData: PollType | undefined;
     $: pollData = $PollStore.find(p => p.id === poll.id);
 
-    let totalVotes = (pollData?.voteA ?? 0) + (pollData?.voteB ?? 0);
-    let percentA = Math.floor((pollData?.voteA ?? 0) / totalVotes * 100);
-    let percentB = Math.floor((pollData?.voteB ?? 0) / totalVotes * 100);
+    $: totalVotes = (pollData?.voteA ?? 0) + (pollData?.voteB ?? 0);
+    $: percentA = Math.floor((pollData?.voteA ?? 0) / totalVotes * 100);
+    $: percentB = Math.floor((pollData?.voteB ?? 0) / totalVotes * 100);
 
     const handleVote = (option: string, id: number) => {
         PollStore.update(polls => {
@@ -25,10 +25,6 @@
                 return poll;
             });
         });
-
-        totalVotes = (pollData?.voteA ?? 0) + (pollData?.voteB ?? 0);
-        percentA = Math.floor((pollData?.voteA ?? 0) / totalVotes * 100);
-        percentB = Math.floor((pollData?.voteB ?? 0) / totalVotes * 100);
     }
 
 
