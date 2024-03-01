@@ -5,12 +5,12 @@
 	import PollsList from '../Components/polls/pollsList.svelte';
 	import Header from '../Components/header.svelte';
 	import Footer from '../Components/footer.svelte';
+    import PollStore from '../stores/PollStore';
 
     const tabs = ["Polls", "Add New Poll"]
     let activeTab: string;
-    let polls: PollType[] = [];
 
-    if (polls.length === 0) {
+    if ($PollStore.length === 0) {
         activeTab = "Add New Poll";
     } else {
         activeTab = "Polls";
@@ -21,25 +21,9 @@
     }
 
     const addPoll = (e: CustomEvent<PollType>) => {
-        polls = [e.detail, ...polls]
-        console.log(polls);
         activeTab = "Polls";
     }
 
-    const handleVote = (e: CustomEvent<VoteType>) => {
-        const {option, id} = e.detail;
-        polls = polls.map(poll => {
-            if (poll.id === id) {
-                if(option === 'a'){
-                    return {...poll, voteA: poll.voteA + 1}
-                }
-                if(option === 'b'){
-                    return {...poll, voteB: poll.voteB + 1}
-                }
-            }
-            return poll;
-        })
-    }
 </script>
 
 
@@ -47,11 +31,7 @@
     <Header />
     <Tabs {tabs} {activeTab} on:changeTab={changeTab}/>
     {#if activeTab === "Polls"}
-        {#if polls.length === 0}
-            <p>There are no polls to show</p>
-        {:else}
-            <PollsList {polls} on:vote={handleVote} />
-        {/if}
+        <PollsList />
     {:else}
         <h4>Add New Poll</h4>
         <AddPollForm on:addPoll={addPoll} />

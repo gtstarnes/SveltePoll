@@ -2,16 +2,22 @@
     import type { PollType } from "../../types/types"
     import PollDetails from "./pollDetails.svelte";
     import Card from "./card.svelte";
+    import PollStore from "../../stores/PollStore";
+	
+    export let polls = $PollStore
 
-    export let polls: PollType[] = []
 </script>
 
 <div class="pollList">
-    {#each polls as poll (poll.id)}
-        <Card>
-            <PollDetails {poll} on:vote />
-        </Card>
-    {/each}
+    {#if $PollStore.length === 0}
+        <p>There are no polls</p>
+    {:else}
+        {#each polls as poll (poll.id)}
+            <Card>
+                <PollDetails {poll} />
+            </Card>
+        {/each}
+    {/if}
 </div>
 
 <style>
