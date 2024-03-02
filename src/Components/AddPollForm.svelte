@@ -2,62 +2,64 @@
     import PollStore from "../stores/PollStore";
 	import { createEventDispatcher } from "svelte";
 
-    let options = {question: '', optionA: '', optionB: ''};
-    let error = {question: '', optionA: '', optionB: ''};
+
+    let fields = {question: '', optionA: '', optionB: ''};
+    let errors = {question: '', optionA: '', optionB: ''};
     let valid = false;
     const dispatch = createEventDispatcher();
 
     const handleSubmit = () => {
-        valid = true
-        if (options.question.length < 5) {
+        valid = true;
+        if (fields.question.length < 5){
             valid = false;
-            error.question = "Question is too short"
+            errors.question = 'Question is too short';
         } else {
-            error.question = ''
+            errors.question = '';
         }
-        if (options.optionA.length === 0) {
+        if (fields.optionA.length === 0){
             valid = false;
-            error.optionA = "Option is required"
+            errors.optionA = 'Answer is required';
         } else {
-            error.optionA = ''
+            errors.optionA = '';
         }
-        if (options.optionB.length === 0) {
+        if (fields.optionB.length === 0){
             valid = false;
-            error.optionB = "Option is required"
+            errors.optionB = 'Answer is required';
         } else {
-            error.optionB = ''
+            errors.optionB = '';
         }
-        if (valid) {
-            const poll = {...options, id: Math.random(), voteA: 0, voteB: 0}
+
+        if(valid){
+            const poll = {...fields, id: Math.random(), voteA: 0, voteB: 0};
             PollStore.update(polls => {
                 return [poll, ...polls];
             })
-            dispatch("addPoll");
+            dispatch('addPoll');
             handleReset();
         }
     }
 
     const handleReset = () => {
-        options = {question: '', optionA: '', optionB: ''};
-        error = {question: '', optionA: '', optionB: ''};
+        fields = {question: '', optionA: '', optionB: ''};
+        errors = {question: '', optionA: '', optionB: ''};
     }
 </script>
 
-<form on:submit|preventDefault={handleSubmit}>
+<form on:submit|preventDefault={handleSubmit} >
     <div class="form-field">
-        <label for="question">Question: </label>
-        <input type="text" placeholder="Ask your question" bind:value={options.question} />
-        <p class="error">{error.question}</p>
+        <label for="question">Question</label>
+        <input name="question" id="question" type="text" placeholder="Ask a Question" bind:value={fields.question} />
+        <p class="error">{errors.question}</p>
     </div>
     <div class="form-field">
-        <label for="optionA">Option A: </label>
-        <input type="text" placeholder="Add option 1" bind:value={options.optionA} />
-        <p class="error">{error.optionA}</p>
+        <label for="answerA">Answer A</label>
+        <input name="answerA" id="answerA" type="text" placeholder="Add Answer" bind:value={fields.optionA} />
+        <p class="error">{errors.optionA}</p>
     </div>
     <div class="form-field">
-        <label for="optionB">Option B: </label>
-        <input type="text" placeholder="Add option 2" bind:value={options.optionB} />
-        <p class="error">{error.optionB}</p>
+        <label for="answerB">Answer B</label>
+        <input name="answerB" id="answerB" type="text" placeholder="Add Answer" bind:value={fields.optionB} />
+        <p class="error">{errors.optionB}</p>
     </div>
     <div>
         <button type="submit">Submit</button>
