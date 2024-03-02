@@ -4,17 +4,17 @@
     import Card from "./card.svelte";
     import PollStore from "../../stores/PollStore";
 	
-    export let polls = $PollStore
+    let polls = $PollStore;
 
 </script>
 
 <div class="pollList">
-    {#if $PollStore.length === 0}
-        <p>There are no polls</p>
+    {#if polls.length === 0}
+        <p>There are no polls to show</p>
     {:else}
         {#each polls as poll (poll.id)}
             <Card>
-                <PollDetails {poll} />
+                <PollDetails pollData={poll} />
             </Card>
         {/each}
     {/if}
