@@ -1,10 +1,10 @@
 <script lang="ts">
-    import type { PollType } from "../../types/types"
     import PollDetails from "./pollDetails.svelte";
     import Card from "./card.svelte";
     import PollStore from "../../stores/PollStore";
+    import { fade, slide, scale} from 'svelte/transition';
+    import {flip} from 'svelte/animate';
 	
-    $: polls = $PollStore;
 
     const handleDelete = (id: number | undefined) => {
         if (typeof id === 'undefined') {
@@ -21,16 +21,18 @@
 </script>
 
 <div class="pollList">
-    {#if polls.length === 0}
+    {#if $PollStore.length === 0}
         <p>There are no polls to show</p>
     {:else}
-        {#each polls as poll (poll.id)}
+        {#each $PollStore as poll (poll.id)}
+            <div in:fade out:scale animate:flip={{duration: 500}}>
                 <Card>
                     <PollDetails pollData={poll} />
                     <div class="delete">
                         <button on:click={() => handleDelete(poll.id)}>Delete Poll</button>
                     </div>
                 </Card>
+            </div>
         {/each}
     {/if}
 </div>
