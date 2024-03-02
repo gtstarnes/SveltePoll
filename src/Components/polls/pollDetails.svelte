@@ -6,7 +6,6 @@
     $: poll = $PollStore.find(p => {
         return p.id === pollData.id;
     })
-
     
     $: totalVotes = (poll?.voteA ?? 0) + (poll?.voteB ?? 0);
     $: percentA = Math.floor((poll?.voteA ?? 0) / totalVotes * 100 );
@@ -31,7 +30,7 @@
         })
     }
 </script>
-
+{#if poll}
 <div class="poll">
     <h2>{poll?.question}</h2>
     <div class="buttons">
@@ -50,6 +49,7 @@
         <p>Votes for B: {poll?.voteB ?? 0}</p>
     </div>
 </div>
+{/if}
 
 <style>
     button {
@@ -72,6 +72,7 @@
         width: 50%;
         gap: 10px
     }
+
     .percent {
         height: 100%;
         position: absolute;
