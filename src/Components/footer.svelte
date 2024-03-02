@@ -8,7 +8,7 @@
 
 <style>
     footer {
-        position: fixed;
-        bottom: 0;
+        position: relative;
+        margin-top: 40px;
     }
 </style>
