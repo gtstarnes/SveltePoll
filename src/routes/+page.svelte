@@ -1,37 +1,37 @@
 <script lang="ts">
     import Tabs from '../Components/Tabs.svelte'
     import AddPollForm from '../Components/AddPollForm.svelte';
-    import type {PollType} from '../types/types';
 	import PollsList from '../Components/polls/pollsList.svelte';
 	import Header from '../Components/header.svelte';
 	import Footer from '../Components/footer.svelte';
     import PollStore from '../stores/PollStore';
 
     // Tab
-    const tabs: string[] = ["Poll List", "Add New Poll"]
+    const tabs = ['Current Polls', 'Add New Poll']
     let activeTab: string;
-    if ($PollStore.length === 0){
-        activeTab = tabs[1];
+
+    if ($PollStore.length === 0) {
+        activeTab = 'Add New Poll'
     } else {
-        activeTab = tabs[0];
+        activeTab = 'Current Polls'
     }
+
     const changeTab = (e: CustomEvent<string>) => {
         activeTab = e.detail;
     }
     const addPoll = () => {
-        activeTab = tabs[0]
+        activeTab = 'Current Polls'
     }
 </script>
 
 
 <main>
     <Header />
-    <Tabs {tabs} {activeTab}  on:changeTab={changeTab}/>
-    {#if activeTab === tabs[0]}
-        <PollsList />
+    <Tabs {tabs} {activeTab} on:changeTab={changeTab} />
+    {#if activeTab === 'Add New Poll'}
+        <AddPollForm on:addPoll={addPoll} />
     {:else}
-        <h4>Add New Poll</h4>
-        <AddPollForm on:addPoll={addPoll}/>
+        <PollsList />
     {/if}
     <Footer />
 </main>
