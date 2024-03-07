@@ -3,9 +3,7 @@
 </script>
 
 <div>
-
     <slot></slot>
-    
 </div>
 
 <style>
