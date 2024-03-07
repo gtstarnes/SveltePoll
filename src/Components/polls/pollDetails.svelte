@@ -2,17 +2,34 @@
     import type { PollType } from "../../types/types";
     import PollStore from "../../stores/PollStore";
 	import { tweened } from "svelte/motion";
-
+	
     export let poll: PollType;
-
-    $: totalVotes = (poll.voteA) + (poll.voteB);
-    $: percentA = Math.floor(poll.voteA / totalVotes * 100 || 0);
-    $: percentB = Math.floor(poll.voteB / totalVotes * 100 || 0);
+    $: totalVotes = poll.voteA + poll.voteB;
+    $: percentA = poll.voteA / totalVotes * 100 || 0;
+    $: percentB = poll.voteB / totalVotes * 100 || 0;
 
     const tweenedA = tweened(percentA);
     const tweenedB = tweened(percentB);
-    $: tweenedA.set(percentA);
-    $: tweenedB.set(percentB);
+    $: {
+        tweenedA.set(percentA)
+        tweenedB.set(percentB)
+    }
+
+    const vote = (option: string, id: number) => {
+        PollStore.update(polls => {
+            return polls.map(poll => {
+                if (poll.id === id) {
+                    if (option === 'a'){
+                        return {...poll, voteA: poll.voteA + 1}
+                    }
+                    if (option === 'b'){
+                        return {...poll, voteB: poll.voteB + 1}
+                    }
+                }
+                return poll
+            })
+        })
+    }
 
     const deletePoll = (id: number) => {
         PollStore.update(polls => {
@@ -22,32 +39,17 @@
         })
     }
 
-    const handleVote = (id: number, option: string) => {
-        PollStore.update(polls => {
-            return polls.map(poll => {
-                if (poll.id === id) {
-                    if (option === 'a'){
-                        return {...poll, voteA: poll.voteA + 1}
-                    }
-                    if(option === 'b'){
-                        return {...poll, voteB: poll.voteB + 1}
-                    }
-                }
-                return poll
-            })
-        })
-    }
 </script>
 <div class="poll">
-    <h2>{poll.question}</h2>
+    <h3>{poll.question}</h3>
     <div class="buttons">
-        <button on:click={() => handleVote(poll.id, 'a')}>
+        <button on:click={() => vote('a', poll.id)}>
             <div class="percent percent-A" style="width: {$tweenedA}%"></div>
-            <span>{poll.optionA} ({percentA}%)</span>
+            <span>{poll.optionA} ({poll.voteA})</span>
         </button>
-        <button on:click={() => handleVote(poll.id, 'b')}>
+        <button on:click={() => vote('b', poll.id)}>
             <div class="percent percent-B" style="width: {$tweenedB}%"></div>
-            <span>{poll.optionB} ({percentB}%)</span>
+            <span>{poll.optionB} ({poll.voteB})</span>
         </button>
     </div>
     <div class="totals">
@@ -55,7 +57,7 @@
         <p>Total Votes: {totalVotes}</p>
         <p>Votes for B: {poll.voteB}</p>
     </div>
-    <button class="delete" type="button" on:click={() => deletePoll(poll.id)}>Delete Poll</button>
+    <button type="button" on:click={() => deletePoll(poll.id)} class="delete">Delete</button>
 </div>
 
 
