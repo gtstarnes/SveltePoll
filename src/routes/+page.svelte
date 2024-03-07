@@ -5,35 +5,32 @@
 	import Header from '../Components/header.svelte';
 	import Footer from '../Components/footer.svelte';
     import PollStore from '../stores/PollStore';
+    import type { PollType } from '../types/types'
 
     // Tab
-    const tabs = ['Current Polls', 'Add New Poll']
-    let activeTab: string;
-
-    if ($PollStore.length === 0) {
-        activeTab = 'Add New Poll'
-    } else {
-        activeTab = 'Current Polls'
-    }
-
+    const tabs = ["Current Polls", "Add New Poll"];
+    let activeTab = "Add New Poll";
     const changeTab = (e: CustomEvent<string>) => {
         activeTab = e.detail;
     }
     const addPoll = () => {
-        activeTab = 'Current Polls'
+        activeTab = "Current Polls"
     }
+
 </script>
 
 
 <main>
+
     <Header />
     <Tabs {tabs} {activeTab} on:changeTab={changeTab} />
-    {#if activeTab === 'Add New Poll'}
-        <AddPollForm on:addPoll={addPoll} />
-    {:else}
+    {#if activeTab === "Current Polls"}
         <PollsList />
+    {:else}
+        <AddPollForm on:addPoll={addPoll} />
     {/if}
     <Footer />
+
 </main>
 
 <style>
