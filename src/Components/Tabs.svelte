@@ -3,6 +3,7 @@
     export let tabs: string[];
     export let activeTab: string;
     const dispatch = createEventDispatcher();
+
     const changeTab = (tab: string) => {
         dispatch('changeTab', tab)
     }
@@ -12,7 +13,7 @@
     <ul>
         {#each tabs as tab}
             <li class:active={tab === activeTab}>
-                <button on:click={()=>changeTab(tab)}>{tab}</button>
+                <button on:click={() => changeTab(tab)}>{tab}</button>
             </li>
         {/each}
     </ul>
