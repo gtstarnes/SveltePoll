@@ -103,10 +103,6 @@
         flex-direction: column;
         align-items: center;
     }
-    span {
-        display: inline-block;
-        padding: 10px 20px;
-    }
     .totals {
         display: flex;
         gap: 20px;
