@@ -5,21 +5,21 @@
 	
     export let poll: PollType;
     $: totalVotes = poll.voteA + poll.voteB;
-    $: percentA = poll.voteA / totalVotes * 100 || 0;
-    $: percentB = poll.voteB / totalVotes * 100 || 0;
+    $: percentA = Math.floor(poll.voteA / totalVotes * 100) || 0;
+    $: percentB = Math.floor(poll.voteB / totalVotes * 100) || 0;
 
     const tweenedA = tweened(percentA);
     const tweenedB = tweened(percentB);
     $: {
-        tweenedA.set(percentA)
+        tweenedA.set(percentA);
         tweenedB.set(percentB)
     }
 
-    const vote = (option: string, id: number) => {
+    const handleVote = (option: string, id: number) => {
         PollStore.update(polls => {
             return polls.map(poll => {
-                if (poll.id === id) {
-                    if (option === 'a'){
+                if (poll.id === id){
+                    if(option === 'a'){
                         return {...poll, voteA: poll.voteA + 1}
                     }
                     if (option === 'b'){
@@ -38,18 +38,17 @@
             })
         })
     }
-
 </script>
 <div class="poll">
     <h3>{poll.question}</h3>
     <div class="buttons">
-        <button on:click={() => vote('a', poll.id)}>
+        <button on:click={() => handleVote('a', poll.id)}>
             <div class="percent percent-A" style="width: {$tweenedA}%"></div>
-            <span>{poll.optionA} ({poll.voteA})</span>
+            {poll.optionA} ({percentA}%)
         </button>
-        <button on:click={() => vote('b', poll.id)}>
+        <button on:click={() => handleVote('b', poll.id)}>
             <div class="percent percent-B" style="width: {$tweenedB}%"></div>
-            <span>{poll.optionB} ({poll.voteB})</span>
+            {poll.optionB} ({percentB}%)
         </button>
     </div>
     <div class="totals">
@@ -57,7 +56,7 @@
         <p>Total Votes: {totalVotes}</p>
         <p>Votes for B: {poll.voteB}</p>
     </div>
-    <button type="button" on:click={() => deletePoll(poll.id)} class="delete">Delete</button>
+    <button class="delete" on:click={() => deletePoll(poll.id)}>Delete Poll</button>
 </div>
 
 
