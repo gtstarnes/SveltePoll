@@ -8,7 +8,7 @@
 
 <div class="pollList">
     {#if $PollStore.length === 0}
-        <p>There are no polls to show</p>
+        <p>Polls list is empty</p>
     {:else}
         {#each $PollStore as poll (poll.id)}
             <div in:fade out:scale animate:flip={{duration: 500}}>
