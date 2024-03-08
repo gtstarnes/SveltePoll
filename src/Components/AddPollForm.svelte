@@ -2,64 +2,64 @@
     import PollStore from "../stores/PollStore";
 	import { createEventDispatcher } from "svelte";
 
-    let pollFields = {question: '', optionA: '', optionB: ''};
-    let error = {question: '', optionA: '', optionB: ''};
+    let pollData = {question: '', optionA: '', optionB: ''}
+    let error = {question: '', optionA: '', optionB: ''}
     let valid = false;
-    const dispatch = createEventDispatcher()
+    const dispatch = createEventDispatcher();
 
     const submitPoll = () => {
         valid = true
-        if (pollFields.question.length < 5) {
-            valid = false;
-            error.question = 'Questions should be longer than 5 characters';
+        if (pollData.question.length < 10) {
+            valid = false
+            error.question = 'Question must be longer than 10 characters'
         } else {
-            error.question = '';
+            error.question = ''
         }
-        if (pollFields.optionA.length === 0) {
-            valid = false;
-            error.optionA = 'Option is required';
+        if (pollData.optionA.length === 0 ) {
+            valid = false
+            error.optionA = 'Option is required'
         } else {
-            error.optionA = '';
+            error.optionA = ''
         }
-        if (pollFields.optionB.length === 0) {
-            valid = false;
-            error.optionB = 'Option is required';
+        if (pollData.optionB.length === 0 ) {
+            valid = false
+            error.optionB = 'Option is required'
         } else {
-            error.optionB = '';
+            error.optionB = ''
         }
 
-        if(valid) {
+        if (valid) {
             const poll = {
-                ...pollFields, voteA: 0, voteB: 0, id: Math.random()
+                ...pollData, id: Math.random(), voteA: 0, voteB: 0,
             }
             PollStore.update(polls => {
                 return [poll, ...polls]
             })
-            dispatch('addPoll');
+            dispatch('addPoll')
             resetPoll();
         }
     }
 
     const resetPoll = () => {
-        pollFields = {question: '', optionA: '', optionB: ''};
-        error = {question: '', optionA: '', optionB: ''};
+        pollData = {question: '', optionA: '', optionB: ''}
+        error = {question: '', optionA: '', optionB: ''}
     }
 </script>
 
 <form on:submit|preventDefault={submitPoll}>
     <div class="form-field">
         <label for="question">Question</label>
-        <input type="text" name="question" id="question" placeholder="Question" bind:value={pollFields.question} />
+        <input id="question" name="question" type="text" placeholder="Question" bind:value={pollData.question}  />
         <p class="error">{error.question}</p>
     </div>
     <div class="form-field">
         <label for="optionA">Option A</label>
-        <input type="text" name="optionA" id="optionA" placeholder="Option A" bind:value={pollFields.optionA} />
+        <input id="optionA" name="optionA" type="text" placeholder="Option A" bind:value={pollData.optionA}  />
         <p class="error">{error.optionA}</p>
     </div>
     <div class="form-field">
         <label for="optionB">Option B</label>
-        <input type="text" name="optionB" id="optionB" placeholder="Option B" bind:value={pollFields.optionB} />
+        <input id="optionB" name="optionB" type="text" placeholder="Option B" bind:value={pollData.optionB}  />
         <p class="error">{error.optionB}</p>
     </div>
     <div>
