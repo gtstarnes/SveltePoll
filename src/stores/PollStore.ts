@@ -4,4 +4,29 @@ import type { PollType } from "../types/types";
 const initial: PollType[]= [];
 const PollStore = writable(initial)
 
-export default PollStore
+const deletePoll = (id:number) => {
+    PollStore.update(polls => {
+        return polls.filter(poll => {
+            return poll.id != id
+        })
+    })
+}
+
+const vote = (option:string, id:number) => {
+    PollStore.update(polls => {
+        return polls.map(poll => {
+            if (poll.id === id) {
+                if(option === 'a'){
+                    return {...poll, voteA: poll.voteA +1}
+                }
+                if(option === 'b'){
+                    return {...poll, voteB: poll.voteB +1}
+                }
+            }
+            return poll
+        })
+    })
+}
+
+
+export {PollStore, deletePoll, vote}
