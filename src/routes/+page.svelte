@@ -4,7 +4,7 @@
 	import PollsList from '../Components/polls/pollsList.svelte';
 	import Header from '../Components/header.svelte';
 	import Footer from '../Components/footer.svelte';
-    import PollStore from '../stores/PollStore';
+    import {PollStore} from '../stores/PollStore';
     import type { PollType } from '../types/types'
 
     // Tab
