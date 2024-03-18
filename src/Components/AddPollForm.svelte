@@ -1,5 +1,5 @@
 <script lang="ts">
-    import PollStore from "../stores/PollStore";
+    import {PollStore} from "../stores/PollStore";
 	import { createEventDispatcher } from "svelte";
 
     let fields = {question: '', optionA: '', optionB: ''}
