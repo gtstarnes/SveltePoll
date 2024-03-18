@@ -1,7 +1,7 @@
 <script lang="ts">
     import PollDetails from "./pollDetails.svelte";
     import Card from "./card.svelte";
-    import PollStore from "../../stores/PollStore";
+    import {PollStore} from "../../stores/PollStore";
     import { fade, scale} from 'svelte/transition';
     import {flip} from 'svelte/animate';
 </script>
