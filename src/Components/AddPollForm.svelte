@@ -1,67 +1,59 @@
 <script lang="ts">
     import {PollStore} from "../stores/PollStore";
 	import { createEventDispatcher } from "svelte";
-
-    let fields = {question: '', optionA: '', optionB: ''}
+    let poll = {question: '', optionA: '', optionB: ''}
     let error = {question: '', optionA: '', optionB: ''}
-    let valid = false;
     const dispatch = createEventDispatcher();
 
-    const resetPoll = () => {
-        fields = {question: '', optionA: '', optionB: ''}
+    const hasError = () => {
         error = {question: '', optionA: '', optionB: ''}
+        if (poll.question.length < 10){
+            error.question = "QUESTION MUST BE LONGER THAN 10 CHARACTERS"
+        }
+        if (poll.optionA.trim() === ''){
+            error.optionA = "Option is required"
+        }
+        if (poll.optionB.trim() === ''){
+            error.optionB = "Option is required"
+        }
+        if (error.question !== '' || error.optionA !== '' || error.optionB !==''){
+            return true
+        } else {
+            return false
+        }
     }
-    const submitPoll = () => {
-        valid = true
-        if (fields.question.length < 10){
-            valid = false
-            error.question = 'Question must be longer than 10 characters'
-        } else {
-            error.question = ''
+    
+    const createPoll = () => {
+        if (hasError()) {
+            return
         }
-        if (fields.optionA.length === 0){
-            valid = false
-            error.optionA = 'Option is required'
-        } else {
-            error.optionA = ''
-        }
-        if (fields.optionB.length === 0){
-            valid = false
-            error.optionB = 'Option is required'
-        } else {
-            error.optionB = ''
-        }
-
-        if(valid){
-            const poll = {...fields, voteA: 0, voteB: 0, id: Math.random()}
-            PollStore.update(polls => {
-                return [poll, ...polls]
-            })
-            dispatch('addPoll');
-            resetPoll();
-        }
+        const newPoll = {...poll, id: Math.random(), voteA: 0, voteB: 0}
+        PollStore.update(polls => {
+            return [...polls, newPoll]
+        })
+        dispatch('createPoll')
     }
 </script>
 
-<form on:submit|preventDefault={submitPoll}>
-    <div class="form-field">
+<form>
+    <div class='form-field'>
         <label for="question">Question</label>
-        <input name="question" id="question" type="text" placeholder="Question" bind:value={fields.question} />
-        <p class="error">{error.question}</p>
+        <input type="text" placeholder="Add a Question" id="question" name="question" bind:value={poll.question} />
+        <div class="error">{error.question}</div>
     </div>
-    <div class="form-field">
+    <div class='form-field'>
         <label for="optionA">Option A</label>
-        <input name="optionA" id="optionA" type="text" placeholder="Option A" bind:value={fields.optionA} />
-        <p class="error">{error.optionA}</p>
+        <input type="text" placeholder="Add Option A" id="optionA" name="optionA" bind:value={poll.optionA} />
+        <div class="error">{error.optionA}</div>
     </div>
-    <div class="form-field">
+    <div class='form-field'>
         <label for="optionB">Option B</label>
-        <input name="optionB" id="optionB" type="text" placeholder="Option B" bind:value={fields.optionB} />
-        <p class="error">{error.optionB}</p>
+        <input type="text" placeholder="Add Option B" id="optionB" name="optionB" bind:value={poll.optionB} />
+        <div class="error">{error.optionB}</div>
     </div>
     <div>
-        <button type="submit">Submit</button>
-        <button type="reset" on:click={resetPoll}>Reset</button>
+        <button type="submit" on:click={createPoll}>Submit</button>
+        <button type="reset" >Reset</button>
     </div>
 </form>
 
