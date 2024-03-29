@@ -29,7 +29,7 @@
         }
         const newPoll = {...poll, id: Math.random(), voteA: 0, voteB: 0}
         PollStore.update(polls => {
-            return [...polls, newPoll]
+            return [newPoll, ...polls]
         })
         dispatch('createPoll')
     }
