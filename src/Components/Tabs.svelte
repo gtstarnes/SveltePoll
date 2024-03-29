@@ -12,7 +12,7 @@
 <div class="tabs">
     <ul>
         {#each tabs as tab}
-            <li class:active={tab === activeTab}>
+            <li class:active={activeTab === tab}>
                 <button on:click={() => changeTab(tab)}>{tab}</button>
             </li>
         {/each}
