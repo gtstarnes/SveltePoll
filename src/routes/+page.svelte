@@ -8,21 +8,22 @@
     import type { PollType } from '../types/types'
 
     // Tab
-    const tabs:string[] = ['Current Polls', 'Add New Poll']
-    let activeTab:string;
+    const tabs = ['Active Polls', 'Create A Poll']
+    let activeTab: string;
 
-    if ($PollStore.length === 0){
-        activeTab = tabs[1]
+    if ($PollStore.length === 0) {
+        activeTab = 'Create A Poll'
     } else {
-        activeTab = tabs[0]
+        activeTab = 'Active Polls'
     }
 
     const changeTab = (e: CustomEvent<string>) => {
-        activeTab = e.detail;
+        const tab = e.detail
+        activeTab = tab;
     }
 
-    const addPoll = () => {
-        activeTab = tabs[0]
+    const createPoll = () => {
+        activeTab = 'Active Polls'
     }
 </script>
 
@@ -30,11 +31,11 @@
 <main>
 
     <Header />
-    <Tabs {tabs} {activeTab} on:changeTab={changeTab}/>
-    {#if activeTab === tabs[0]}
+    <Tabs {tabs} {activeTab} on:changeTab={changeTab} />
+    {#if activeTab === 'Active Polls'}
         <PollsList />
     {:else}
-        <AddPollForm on:addPoll={addPoll}/>
+        <AddPollForm on:createPoll={createPoll}/>
     {/if}
     <Footer />
 
